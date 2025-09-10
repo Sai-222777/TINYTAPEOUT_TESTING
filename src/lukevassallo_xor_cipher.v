@@ -23,6 +23,9 @@ module tt_um_lukevassallo_xor_cipher (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+    assign uio_out = 0;
+    assign uio_oe = 0;
+
 //xor_cipher uut (
 //    .clk(ui_in[0]),
 //    .rst(ui_in[1]),
