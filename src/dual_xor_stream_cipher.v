@@ -106,9 +106,11 @@ counter uut_counter (
     .clk(clk),
     .rst(rst),
     .en(cfg_en),
-    .trigger_count( 16'd4*M+2 ), // This is correct. 
+    .trigger_count( 4*M+2 ), // This is correct. 
     .count(),
     .pulse(ld));
+
+wire gota;
     
 counter uut_heartbeat_counter (
     .clk(clk),
@@ -116,7 +118,7 @@ counter uut_heartbeat_counter (
     .en(1'b1),
     .trigger_count(16'hFFFF),
     .count(heartbeat_count),
-    .pulse());
+    .pulse(gota));
 
 //assign k = (k_mux == 1'b1) ? external_k : internal_lfsr_k;
 wire txp;
