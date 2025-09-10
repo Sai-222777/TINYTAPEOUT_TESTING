@@ -27,6 +27,7 @@ module tt_um_lukevassallo_xor_cipher (
     assign uio_oe = 0;
 
     wire _unused = &{ena, rst_n, uio_in, ui_in, clk, 1'b0};
+    assign uo_out = 0;
 
 // dual_xor_stream_cipher #( .M(32) ) uut  (
 //     .clk(ui_in[0]),
