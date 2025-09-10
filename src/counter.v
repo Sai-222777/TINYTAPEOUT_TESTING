@@ -29,7 +29,7 @@ wire [15:0] count_next;
 
 always @(posedge clk) begin
     if (rst) begin
-        count <= 16'b0;
+        count <= 16'd0;
     end else begin
         count <= count_next;
     end
