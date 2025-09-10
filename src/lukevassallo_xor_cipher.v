@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module lukevassallo_xor_cipher (
+module tt_um_lukevassallo_xor_cipher (
 input [7:0] io_in,
 output [7:0] io_out );
 
