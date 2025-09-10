@@ -26,26 +26,26 @@ module tt_um_lukevassallo_xor_cipher (
     assign uio_out = 0;
     assign uio_oe = 0;
 
-    wire _unused = &{ena, rst_n, uio_in, ui_in, clk, 1'b0};
-    assign uo_out = 0;
+    wire _unused = &{ena, rst_n, uio_in, clk, 1'b0};
+    // assign uo_out = 0;
 
-// dual_xor_stream_cipher #( .M(32) ) uut  (
-//     .clk(ui_in[0]),
-//     .rst(ui_in[1]),
-//     .tx_p(ui_in[2]),
-//     .rx_e(ui_in[3]),
-//     .cfg_en(ui_in[4]),
-//     .cfg_i(ui_in[5]),
-//     .tx_en(ui_in[6]),
-//     .rx_en(ui_in[7]),
+dual_xor_stream_cipher #( .M(32) ) uut  (
+    .clk(ui_in[0]),
+    .rst(ui_in[1]),
+    .tx_p(ui_in[2]),
+    .rx_e(ui_in[3]),
+    .cfg_en(ui_in[4]),
+    .cfg_i(ui_in[5]),
+    .tx_en(ui_in[6]),
+    .rx_en(ui_in[7]),
     
-//     .tx_e(uo_out[0]),
-//     .rx_p(uo_out[1]),
-//     .dbg_tx_p(uo_out[2]),
-//     .dbg_rx_e(uo_out[3]), 
+    .tx_e(uo_out[0]),
+    .rx_p(uo_out[1]),
+    .dbg_tx_p(uo_out[2]),
+    .dbg_rx_e(uo_out[3]), 
 
-//     .cfg_o(uo_out[4]),
-//     .heartbeat(uo_out[7:5])
-// );
+    .cfg_o(uo_out[4]),
+    .heartbeat(uo_out[7:5])
+);
     
 endmodule
