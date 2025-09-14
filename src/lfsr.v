@@ -42,7 +42,7 @@ module galois_lfsr #(parameter N = 32)(
     assign lfsr_o32 = lfsr;
     assign lsfr_o16 = lfsr[31:16];
     
-    assign lfsr_o = !sel0 ? {16'b0,lfsr_o16} : lfsr_o32;
+    assign lfsr_o = sel0 ? {16'd0,lfsr_o16} : lfsr_o32;
     
     assign k = lfsr[N-1];
     
