@@ -31,7 +31,7 @@ module tt_um_lukevassallo_xor_cipher (
 
 dual_xor_stream_cipher #( .M(32) ) uut  (
     .clk(clk),
-    .rst(rst_n),
+    .rst(!rst_n),
     .sel0(ui_in[0]),
     .sel1(ui_in[1]),
     .tx_p(ui_in[2]),
