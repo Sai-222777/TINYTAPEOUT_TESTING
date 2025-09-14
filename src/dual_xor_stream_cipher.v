@@ -15,6 +15,9 @@
 module dual_xor_stream_cipher #(parameter M = 32)(
     input clk,
     input rst, 
+
+    input sel0,
+    input sel1,
     
     input tx_p,
     input rx_e,
@@ -77,6 +80,8 @@ galois_lfsr #( .N(M) ) uut_tx_galois_lfsr
     .rst(rst),
     .en(combined_tx_en),
     .ld(ld),
+    .sel0(sel0),
+    .sel1(sel1),
     .taps(cfg_reg[4*M-1:3*M]),
     .lfsr_i(cfg_reg[3*M-1:2*M]),
     .lfsr_o(tx_lfsr_o),
@@ -88,6 +93,8 @@ galois_lfsr #( .N(M) ) uut_rx_galois_lfsr (
     .rst(rst),
     .en(combined_rx_en),
     .ld(ld),
+    .sel0(sel0),
+    .sel1(sel1),
     .taps(cfg_reg[2*M-1:M]),
     .lfsr_i(cfg_reg[M-1:0]),
     .lfsr_o(rx_lfsr_o),
