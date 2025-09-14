@@ -16,7 +16,7 @@
 // Notes  : A general purpose up counter with a configurable single-cycle 
 //          output pulse.
 
-module counter (
+module counter(
     input clk,
     input rst,
     input en,
@@ -24,19 +24,17 @@ module counter (
     output reg [15:0] count,
     output pulse
 );
-
-wire [15:0] count_next;
-
-always @(posedge clk) begin
-    if (rst) begin
-        count <= 16'd0;
-    end else begin
-        count <= count_next;
+    always @(posedge clk) begin
+        if (rst) begin
+            count <= 0;
+        end else if (en) begin
+            if (count == trigger_count) begin
+                count <= 0;
+            end else begin
+                count <= count + 1;
+            end
+        end
     end
-end
-
-assign pulse = (count == trigger_count) ? 1'b1 : 1'b0; 
-assign count_next = (en) ? count + 1 : 0;
-
-
+    
+    assign pulse = (count == trigger_count) && en;
 endmodule
