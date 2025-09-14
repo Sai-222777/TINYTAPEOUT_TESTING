@@ -12,50 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module galois_lfsr 
-#(parameter N=48)
-(
+module galois_lfsr #(parameter N = 32)(
     input clk,
     input rst,
-    input en, 
-    input [N-1:0] taps,
+    input en,
     input ld,
+    input sel0,
+    input sel1,
+    input [N-1:0] taps,
     input [N-1:0] lfsr_i,
     output [N-1:0] lfsr_o,
     output k
 );
-
-wire [N-1:0] lfsr_next;
-reg [N-1:0] lfsr_reg;
-
-// rising edge detector 
-//reg prev_signal; // register to store previous value of signal
-//always @(posedge clk, posedge rst) begin
-//    if (rst) begin
-//        ld <= 1'b0;       // reset output to zero
-//        prev_signal <= en; // reset previous signal value
-//    end else begin
-//        if (en == 1'b1 && prev_signal == 1'b0) begin
-//            ld <= 1'b1;  // set output to 1 when rising edge detected
-//        end else begin
-//            ld <= 1'b0;  // set output to 0 otherwise
-//        end
-//        prev_signal <= en; // store current signal value as previous value
-//    end
-//end
-
-always @(posedge clk) begin
-    if (rst) begin        
-        lfsr_reg <= lfsr_i;
-    end else begin
-        lfsr_reg <= lfsr_next;
-     end
-end
-
-assign lfsr_next = (ld==1'b1) ? lfsr_i : (en==1'b1) ? (lfsr_reg[0] ? (lfsr_reg >> 1) ^ taps : (lfsr_reg >> 1)) : lfsr_reg;
-
-assign k = lfsr_reg[0];
-
-assign lfsr_o = lfsr_reg;
-
+    reg [N-1:0] lfsr;
+    
+    always @(posedge clk) begin
+        if (rst) begin
+            lfsr <= {N{1'b1}};
+        end else if (ld) begin
+            lfsr <= lfsr_i;
+        end else if (en) begin
+            lfsr <= {lfsr[N-2:0], 1'b0} ^ (taps & {N{lfsr[N-1]}});
+        end
+    end
+    
+    wire [31:0] lfsr_o32;
+    wire [15:0] lfsr_o16;
+    
+    assign lfsr_o32 = lfsr;
+    assign lsfr_o16 = lfsr[31:16];
+    
+    assign lfsr_o = !sel0 ? {16'b0,lfsr_o16} : lfsr_o32;
+    
+    assign k = lfsr[N-1];
+    
 endmodule
