@@ -37,12 +37,19 @@ module galois_lfsr #(parameter N = 32)(
     end
     
     wire [31:0] lfsr_o32;
-    wire [15:0] lfsr_o16;
-    
-    assign lfsr_o32 = lfsr;
-    assign lfsr_o16 = lfsr[31:16];
-    
-    assign lfsr_o = sel0 ? {16'd0,lfsr_o16} : lfsr_o32;
+    wire [31:0] lfsr_o16;
+    wire [31:0] lfsr_o8;
+    wire [31:0] lfsr_o4;
+
+    assign lfsr_o32 = lfsr;                   // Full 32 bits
+    assign lfsr_o16 = {16'b0, lfsr[15:0]};    // Lower 16 bits
+    assign lfsr_o8  = {24'b0, lfsr[7:0]};     // Lower 8 bits
+    assign lfsr_o4  = {28'b0, lfsr[3:0]};     // Lower 4 bits
+
+    assign lfsr_o = (sel1 == 0 && sel0 == 0) ? lfsr_o32 :
+                    (sel1 == 0 && sel0 == 1) ? lfsr_o16 :
+                    (sel1 == 1 && sel0 == 0) ? lfsr_o8  :
+                                              lfsr_o4;
     
     assign k = lfsr[N-1];
     
